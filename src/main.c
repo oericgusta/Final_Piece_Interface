@@ -11,7 +11,7 @@ int main() {
     inicializar_album(&meu_album);
 
     // Carrega os dados automaticamente do seu CSV ao iniciar
-    carregar_csv(&meu_album, "figurinhas2026.csv");
+    carregar_csv(&meu_album, "assets/figurinhas2026.csv");
 
     int opcao = 0;
     while (opcao != 5) {
