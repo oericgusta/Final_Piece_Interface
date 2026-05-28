@@ -20,7 +20,7 @@ typedef struct {
     int capacidade;        // Capacidade máxima atual alocada na memória RAM
 } Album;
 
-// Protótipos das funções da sua biblioteca
+// Protótipos das funções
 void inicializar_album(Album *al);
 void carregar_csv(Album *al, const char *nome_arquivo);
 void salvar_csv(Album *al, const char *nome_arquivo);

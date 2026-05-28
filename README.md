@@ -1,6 +1,6 @@
 # Final_Piece_Interface
 Projeto prático de um álbum de figurinhas da copa de 2026.
-Com o coneito inicial surgiu o Final Piece (A peça final).
+Com o conceito inicial surgiu o Final Piece (A peça final).
 Que resgata a sensação de completar o album com a ultima
 peça, no caso a última figurinha.
 

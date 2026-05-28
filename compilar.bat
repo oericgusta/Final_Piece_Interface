@@ -1,9 +1,11 @@
 @echo off
-gcc src/main.c src/album.c -Iinclude -o programa.exe
+
+gcc src/*.c -o programa.exe -Iinclude -Llib -lraylib -lopengl32 -lgdi32 -lwinmm -o programa.exe
+
 if %errorlevel% == 0 (
-    echo Compilado com sucesso! Abrindo o Album da Copa...
+    echo Compilacao feita com sucesso!
     programa.exe
 ) else (
-    echo Erro na compilacao. Verifique o codigo.
+    echo --- ERRO NA COMPILACAO ---
     pause
 )
