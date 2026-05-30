@@ -57,6 +57,8 @@ int main(void) {
     } 
 
     salvar_csv(&meu_album, "assets/figurinhas2026.csv");
+    
+    liberar_album(&meu_album); // Libera a memória RAM das figurinhas
 
     CloseWindow();  // Fecha a Janela
 

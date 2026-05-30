@@ -136,19 +136,21 @@ void salvar_csv(Album *al, const char *nome_arquivo) {
         return;
     }
 
-    // Escreve o cabeçalho igual ao do arquivo original
-    fprintf(arq, "codigo,titulo,secao,grupo,tipo\n");
+    // Escreve o cabeçalho COMPLETO do arquivo original
+    fprintf(arq, "codigo,titulo,secao,grupo,tipo,colada,repetidas\n");
 
-    // Salva cada figurinha no arquivo
+    // Salva cada figurinha no arquivo, agora incluindo as coladas e repetidas
     for (int i = 0; i < al->total; i++) {
-        fprintf(arq, "%s,%s,%s,%s,%s\n", 
+        fprintf(arq, "%s,%s,%s,%s,%s,%d,%d\n", 
                 al->figurinhas[i].codigo, 
                 al->figurinhas[i].titulo, 
                 al->figurinhas[i].secao, 
                 al->figurinhas[i].grupo, 
-                al->figurinhas[i].tipo);
+                al->figurinhas[i].tipo,
+                al->figurinhas[i].colada,
+                al->figurinhas[i].repetidas);
     }
 
     fclose(arq);
-    printf("Sucesso: %d figurinhas salvas no arquivo!\n", al->total);
+    printf("Progresso salvo com sucesso no arquivo %s!\n", nome_arquivo);
 }

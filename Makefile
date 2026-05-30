@@ -1,44 +1,64 @@
 # ==========================================
 # Projeto: Álbum de Figurinhas da Copa 2026
 # ==========================================
-# Opção do Make pra usar em sistemas Linux 
-# ==========================================
 
-# Verifica o sistema operacional
+# Verifica o sistema operacional automaticamente
 ifdef OS
   OS := $(strip $(OS))
 else
   OS := $(strip $(shell uname))
 endif
 
-BINNAME = hello
+# Nome do executável que será gerado (baseado na sua foto anterior)
+BINNAME = programa
 
+# ==========================================
+# Configurações Específicas por Sistema
+# ==========================================
+# ==========================================
+# Configurações Específicas por Sistema
+# ==========================================
 ifeq ($(OS),Windows_NT)
-	INCLUDE = -I./include/ -L./libwin
-	EXTRA_FLAGS = -Wall -Wextra -std=c99 -Wno-missing-braces -lraylib -lm -lopengl32 -lgdi32 -lwinmm
+	# Configurações para Windows (Mantém o -L./lib pois no Windows precisa)
+	INCLUDE = -I./include/ -L./lib
+	EXTRA_FLAGS = -Wall -Wextra -std=c99 -Wno-missing-braces -lraylib -lopengl32 -lgdi32 -lwinmm -lm
 	BIN = $(BINNAME).exe
 	RM = del /Q /F
+	RUN_CMD = .\$(BIN)
 else
-	INCLUDE=-I./include/ -L./lib
-	EXTRA_FLAGS = -Wall -Wextra -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
-	BIN =./$(BINNAME)
+	# Configurações para Linux (Removemos o -L./lib)
+	INCLUDE = -I./include/
+	EXTRA_FLAGS = -Wall -Wextra -std=c99 -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+	BIN = $(BINNAME)
 	RM = rm -f
+	RUN_CMD = ./$(BIN)
 endif
 
-SRC=./*.c
+# ==========================================
+# Arquivos Fonte (Aponta para a pasta src!)
+# ==========================================
+SRC = src/*.c
 
+# ==========================================
+# Regras de Compilação
+# ==========================================
+
+# A regra padrão compila o projeto
 all:
-	gcc $(SRC) -g -lm $(EXTRA_FLAGS) $(INCLUDE) -o $(BIN)
+	gcc $(SRC) $(INCLUDE) -o $(BIN) $(EXTRA_FLAGS) -g
 
-run:
-	$(BIN)
+# Compila (se precisar) e já roda o programa
+run: all
+	$(RUN_CMD)
 
-debug:
+# Compila e roda no modo debug
+debug: all
 	gdb $(BIN)
 
+# Limpa o executável gerado
 clean:
 	$(RM) $(BIN)
 
-
-valgrind:
+# Analisador de memória (Normalmente só usado no Linux)
+valgrind: all
 	valgrind --tool=memcheck --leak-check=full --track-origins=yes --show-leak-kinds=all --show-reachable=yes ./$(BIN)
