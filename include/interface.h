@@ -4,7 +4,7 @@
 #include "raylib.h"
 #include "album.h"
 
-typedef enum { MENU, LISTAGEM } EstadoTela;
+typedef enum { MENU, LISTAGEM, PACOTE  } EstadoTela;
 
 void desenhar_background(Texture2D *frames, int frameAtual);
 void desenhar_menu(Rectangle btn);

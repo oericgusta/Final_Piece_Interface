@@ -23,12 +23,19 @@ typedef struct
 } Album;
 
 // Protótipos das funções
+// Funções de Inicialização e Memória
 void inicializar_album(Album *al);
-void carregar_csv(Album *al, const char *nome_arquivo);
+void liberar_album(Album *al);
+
+// Funções de Arquivo / Persistência 
 void salvar_csv(Album *al, const char *nome_arquivo);
+void carregar_csv(Album *al, const char *nome_arquivo);
+
+// funcões de guardar e buscar
 void listar_figurinhas(Album *al);
 void pesquisar_figurinha(Album *al);
+
+// Função do Pacotinho
 void abrir_pacotinho(Album *al);
-void liberar_album(Album *al);
 
 #endif
