@@ -127,30 +127,3 @@ void abrir_pacotinho(Album *al) {
 void liberar_album(Album *al) {
     free(al->figurinhas);
 }
-
-// Salva as alterações feitas na Ram para o HD
-void salvar_csv(Album *al, const char *nome_arquivo) {
-    FILE *arq = fopen(nome_arquivo, "w");
-    if (arq == NULL) {
-        printf("[!] Erro: Nao foi possivel abrir o arquivo para escrita.\n");
-        return;
-    }
-
-    // Escreve o cabeçalho COMPLETO do arquivo original
-    fprintf(arq, "codigo,titulo,secao,grupo,tipo,colada,repetidas\n");
-
-    // Salva cada figurinha no arquivo, agora incluindo as coladas e repetidas
-    for (int i = 0; i < al->total; i++) {
-        fprintf(arq, "%s,%s,%s,%s,%s,%d,%d\n", 
-                al->figurinhas[i].codigo, 
-                al->figurinhas[i].titulo, 
-                al->figurinhas[i].secao, 
-                al->figurinhas[i].grupo, 
-                al->figurinhas[i].tipo,
-                al->figurinhas[i].colada,
-                al->figurinhas[i].repetidas);
-    }
-
-    fclose(arq);
-    printf("Progresso salvo com sucesso no arquivo %s!\n", nome_arquivo);
-}

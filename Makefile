@@ -18,17 +18,18 @@ BINNAME = programa
 # ==========================================
 # Configurações Específicas por Sistema
 # ==========================================
+
 ifeq ($(OS),Windows_NT)
 	# Configurações para Windows (Mantém o -L./lib pois no Windows precisa)
-	INCLUDE = -I./include/ -L./lib
-	EXTRA_FLAGS = -Wall -Wextra -std=c99 -Wno-missing-braces -lraylib -lopengl32 -lgdi32 -lwinmm -lm
+	INCLUDE = -I./include/ -L./lib_win
+	EXTRA_FLAGS = -Wall -std=c99 -Wno-missing-braces -lraylib -lopengl32 -lgdi32 -lwinmm -lm
 	BIN = $(BINNAME).exe
 	RM = del /Q /F
 	RUN_CMD = .\$(BIN)
 else
 	# Configurações para Linux (Removemos o -L./lib)
-	INCLUDE = -I./include/
-	EXTRA_FLAGS = -Wall -Wextra -std=c99 -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+	INCLUDE = -I./include/ -L./lib_linux
+	EXTRA_FLAGS = -Wall -std=c99 -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 	BIN = $(BINNAME)
 	RM = rm -f
 	RUN_CMD = ./$(BIN)
