@@ -9,5 +9,8 @@ typedef enum { MENU, LISTAGEM, PACOTE } EstadoTela;
 void desenhar_background(Texture2D *frames, int frameAtual);
 void desenhar_menu(Rectangle btn);
 void desenhar_listagem(Album *a);
+void carregar_background_frames(Texture2D frames[]);
+void desenhar_botao_som(bool somAtivo, Rectangle btnSom, Texture2D iconeOn, Texture2D iconeOff);
+void encerrar_jogo(Album *album, Texture2D frames[], Texture2D iconeOn, Texture2D iconeOff, Music musica);
 
 #endif
