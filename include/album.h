@@ -2,6 +2,9 @@
 #ifndef ALBUM_H
 #define ALBUM_H
 
+#include "raylib.h"
+#include <ctype.h>
+
 // Estrutura para cada figurinha
 typedef struct
 {
@@ -12,6 +15,7 @@ typedef struct
     char tipo[30];    // Ex: "Comum", "Especial"
     int colada;       // 0 se não tiver no álbum, 1 se estiver colada
     int repetidas;    // Contador de quantas figurinhas repetidas você tem dela
+    Texture2D textura;
 } Figurinha;
 
 // Estrutura que gerencia o Álbum e a alocação dinâmica
@@ -20,6 +24,7 @@ typedef struct
     Figurinha *figurinhas; // Ponteiro para o vetor dinâmico de figurinhas na memória RAM
     int total;             // Quantidade atual de figurinhas carregadas
     int capacidade;        // Capacidade máxima atual alocada na memória RAM
+    Texture2D texturaVerso;
 } Album;
 
 // Protótipos das funções
@@ -37,5 +42,7 @@ void pesquisar_figurinha(Album *al);
 
 // Função do Pacotinho
 void abrir_pacotinho(Album *al);
+
+void carregar_texturas_album(Album *al);
 
 #endif
