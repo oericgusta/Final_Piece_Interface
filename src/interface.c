@@ -161,7 +161,7 @@ void DesenharAlbumPorSelecao(Album *al, const char *secaoAtiva, int paginaAtiva,
         indiceFinal = totalFiltradas;
     }
 
-    /* Renderização dos elements de fundo caso existam figurinhas filtradas */
+    /* Renderização dos elementos de fundo caso existam figurinhas filtradas */
     if (totalFiltradas > 0) {
         /* Definição das folgas laterais e verticais para o dimensionamento do fundo */
         int folgaHorizontal = 80; 
@@ -199,8 +199,8 @@ void DesenharAlbumPorSelecao(Album *al, const char *secaoAtiva, int paginaAtiva,
         const char *nomeExibicao = ObterNomeAbreviado(secaoAtiva);
 
         /* Exibição do nome da seleção na parte superior esquerda com efeito de negrito */
-        DrawText(nomeExibicao, textoSelecaoX, textoSelecaoY, 40, BLACK);
-        DrawText(nomeExibicao, textoSelecaoX + 1, textoSelecaoY, 40, BLACK);
+        DrawText(nomeExibicao, textoSelecaoX, textoSelecaoY - 1, 38, BLACK);
+        DrawText(nomeExibicao, textoSelecaoX + 1, textoSelecaoY - 1, 38, BLACK);
 
         /* Formatação do texto do contador de progresso real (ex: "8/20 coladas") */
         char txtProgresso[30];
@@ -217,13 +217,13 @@ void DesenharAlbumPorSelecao(Album *al, const char *secaoAtiva, int paginaAtiva,
 
         /* Formatação e cálculo para centralizar o número da página na aba inferior */
         char txtPagina[10];
-        sprintf(txtPagina, "%d", paginaAtiva + 1);
-        int larguraTxtPagina = MeasureText(txtPagina, 24);
+        sprintf(txtPagina, "%02d", paginaAtiva + 1);
+        int larguraTxtPagina = MeasureText(txtPagina, 45);
         int paginaX = rectDestinoFolha.x + (rectDestinoFolha.width / 2) - (larguraTxtPagina / 2);
-        int paginaY = rectDestinoFolha.y + rectDestinoFolha.height - 45;
+        int paginaY = rectDestinoFolha.y + rectDestinoFolha.height - 65;
 
         /* Exibição do número da página ativa */
-        DrawText(txtPagina, paginaX, paginaY, 24, DARKGRAY);
+        DrawText(txtPagina, paginaX, paginaY, 45, BLACK);
     }
 
     /* Contador para gerenciar a posição de cada carta na grade (colunas e linhas) */

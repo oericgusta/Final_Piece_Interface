@@ -109,7 +109,7 @@ void carregar_csv(Album *al, const char *nome_arquivo) {
 
         // --- TRAPAÇA TEMPORÁRIA PARA TESTE ---
         f.colada = 0;    
-        f.repetidas = 0; 
+        f.repetidas = 0;
         // -------------------------------------
 
         al->figurinhas[al->total] = f;
