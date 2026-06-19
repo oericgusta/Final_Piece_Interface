@@ -1,65 +1,34 @@
-# ==========================================
-# Projeto: Álbum de Figurinhas da Copa 2026
-# ==========================================
+# ===========================================================================
+# Makefile – Álbum de Figurinhas FIFA 2026
+# Uso:
+#   make        -> compila o projeto
+#   make clean  -> remove objetos e executável
+#   make run    -> compila se necessário e executa
+# ===========================================================================
 
-# Verifica o sistema operacional automaticamente
-ifdef OS
-  OS := $(strip $(OS))
-else
-  OS := $(strip $(shell uname))
-endif
+CC      = gcc
+CFLAGS  = -Wall -Wextra -I.
+LDFLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 
-# Nome do executável que será gerado (baseado na sua foto anterior)
-BINNAME = programa
+SRCS   = main.c album.c interface.c salvamento.c
+OBJS   = $(SRCS:.c=.o)
+TARGET = album2026
 
-# ==========================================
-# Configurações Específicas por Sistema
-# ==========================================
-# ==========================================
-# Configurações Específicas por Sistema
-# ==========================================
+.PHONY: all clean run
 
-ifeq ($(OS),Windows_NT)
-	# Configurações para Windows (Mantém o -L./lib pois no Windows precisa)
-	INCLUDE = -I./include/ -L./lib_win
-	EXTRA_FLAGS = -Wall -std=c99 -Wno-missing-braces -lraylib -lopengl32 -lgdi32 -lwinmm -lm
-	BIN = $(BINNAME).exe
-	RM = del /Q /F
-	RUN_CMD = .\$(BIN)
-else
-	# Configurações para Linux (Removemos o -L./lib)
-	INCLUDE = -I./include/ -L./lib_linux
-	EXTRA_FLAGS = -Wall -std=c99 -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
-	BIN = $(BINNAME)
-	RM = rm -f
-	RUN_CMD = ./$(BIN)
-endif
+# ---- Alvo padrão ----
+all: $(TARGET)
 
-# ==========================================
-# Arquivos Fonte (Aponta para a pasta src!)
-# ==========================================
-SRC = src/*.c
+$(TARGET): $(OBJS)
+	$(CC) $(OBJS) -o $(TARGET) $(LDFLAGS)
 
-# ==========================================
-# Regras de Compilação
-# ==========================================
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-# A regra padrão compila o projeto
-all:
-	gcc $(SRC) $(INCLUDE) -o $(BIN) $(EXTRA_FLAGS) -g
-
-# Compila (se precisar) e já roda o programa
-run: all
-	$(RUN_CMD)
-
-# Compila e roda no modo debug
-debug: all
-	gdb $(BIN)
-
-# Limpa o executável gerado
+# ---- Limpeza ----
 clean:
-	$(RM) $(BIN)
+	rm -f $(OBJS) $(TARGET)
 
-# Analisador de memória (Normalmente só usado no Linux)
-valgrind: all
-	valgrind --tool=memcheck --leak-check=full --track-origins=yes --show-leak-kinds=all --show-reachable=yes ./$(BIN)
+# ---- Compilar e executar ----
+run: all
+	./$(TARGET)
