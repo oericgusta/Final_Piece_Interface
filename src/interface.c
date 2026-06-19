@@ -4,15 +4,15 @@
 #include "interface.h"
 #include "album.h"
 
-/* ================================================================
- *  FUNÇÕES AUXILIARES INTERNAS (não expostas no .h)
- * ================================================================ */
+    // ==================================================
+    //  FUNÇÕES AUXILIARES INTERNAS (não expostas no .h)
+    // ==================================================
 
-/**
- * @brief Converte nomes de seleções em versões abreviadas para a UI.
- * @param nomeOriginal Nome completo da seleção.
- * @return Ponteiro para a string abreviada (ou o original se não houver mapeamento).
- */
+    /**
+     * @brief Converte nomes de seleções em versões abreviadas para a UI.
+     * @param nomeOriginal Nome completo da seleção.
+     * @return Ponteiro para a string abreviada (ou o original se não houver mapeamento).
+     */
 static const char* ObterNomeAbreviado(const char *nomeOriginal) {
     if (strcmp(nomeOriginal, "FIFA World Cup 2026") == 0) return "FWC 2026";
     if (strcmp(nomeOriginal, "Mexico") == 0) return "Mexico";
@@ -44,11 +44,11 @@ static const char* ObterNomeAbreviado(const char *nomeOriginal) {
     return nomeOriginal;
 }
 
-/**
- * @brief Encurta títulos de figurinhas muito longos para caber na UI.
- * @param tituloOriginal Título completo.
- * @return Ponteiro para a versão curta (ou o original).
- */
+    /**
+     * @brief Encurta títulos de figurinhas muito longos para caber na UI.
+     * @param tituloOriginal Título completo.
+     * @return Ponteiro para a versão curta (ou o original).
+     */
 static const char* ObterTituloAbreviado(const char *tituloOriginal) {
     if (strcmp(tituloOriginal, "Escudo dos EUA (Pais-Sede)") == 0)       return "Escudo (EUA)";
     if (strcmp(tituloOriginal, "Escudo do Mexico (Pais-Sede)") == 0)     return "Escudo (MEX)";
@@ -69,10 +69,9 @@ static const char* ObterTituloAbreviado(const char *tituloOriginal) {
     if (strcmp(tituloOriginal, "Trent Alexander-Arnold") == 0)           return "Trent A-Arnold";
     return tituloOriginal;
 }
-
-/* ================================================================
- *  BACKGROUND ANIMADO
- * ================================================================ */
+    // ====================
+    //  BACKGROUND ANIMADO
+    // ====================
 
 void carregar_background_frames(Texture2D frames[]) {
     char path[100];
@@ -85,10 +84,9 @@ void carregar_background_frames(Texture2D frames[]) {
 void desenhar_background(Texture2D *frames, int frameAtual) {
     DrawTexture(frames[frameAtual], 0, 0, WHITE);
 }
-
-/* ================================================================
- *  BOTÃO DE SOM
- * ================================================================ */
+    // ==============
+    //  BOTÃO DE SOM
+    // ==============
 
 void desenhar_botao_som(bool somAtivo, Rectangle btnSom, Texture2D iconeOn, Texture2D iconeOff) {
     Texture2D icone = somAtivo ? iconeOn : iconeOff;
@@ -97,13 +95,13 @@ void desenhar_botao_som(bool somAtivo, Rectangle btnSom, Texture2D iconeOn, Text
                    btnSom, (Vector2){ 0, 0 }, 0.0f, WHITE);
 }
 
-/* ================================================================
- *  TELA: LISTAGEM DO ÁLBUM POR SELEÇÃO
- * ================================================================ */
+    // =====================================
+    //  TELA: LISTAGEM DO ÁLBUM POR SELEÇÃO
+    // =====================================
 
 void DesenharAlbumPorSelecao(Album *al, const char *secaoAtiva, int paginaAtiva,
                               Texture2D moldura, Texture2D fundoPagina) {
-    /* Configurações da grade de figurinhas */
+    // Configurações da grade de figurinhas
     int colunas     = 4;
     int linhas      = 2;
     int larguraCard = 210;
@@ -119,7 +117,7 @@ void DesenharAlbumPorSelecao(Album *al, const char *secaoAtiva, int paginaAtiva,
 
     int cardsPorPagina = colunas * linhas;
 
-    /* Filtragem das figurinhas da seleção ativa */
+    // Filtragem das figurinhas da seleção ativa
     Figurinha *filtradas[50];
     int totalFiltradas   = 0;
     int coladasNaSelecao = 0;
@@ -136,7 +134,7 @@ void DesenharAlbumPorSelecao(Album *al, const char *secaoAtiva, int paginaAtiva,
     int indiceFinal   = indiceInicial + cardsPorPagina;
     if (indiceFinal > totalFiltradas) indiceFinal = totalFiltradas;
 
-    /* Fundo da página e cabeçalho */
+    // Fundo da página e cabeçalho
     if (totalFiltradas > 0) {
         int folgaHorizontal = 80;
         int folgaVertical   = 170;
@@ -185,7 +183,7 @@ void DesenharAlbumPorSelecao(Album *al, const char *secaoAtiva, int paginaAtiva,
         DrawText(txtPagina, paginaX, paginaY, 45, BLACK);
     }
 
-    /* Renderização das figurinhas */
+    // Renderização das figurinhas
     int contadorPosicao = 0;
 
     for (int i = indiceInicial; i < indiceFinal; i++) {
@@ -237,7 +235,7 @@ void DesenharAlbumPorSelecao(Album *al, const char *secaoAtiva, int paginaAtiva,
                      posY + (alturaCard / 2) - 12, 24, WHITE);
         }
 
-        /* Moldura */
+        // Moldura
         int margemMoldura = 8;
         Rectangle rectMoldura = {
             (float)(posX - margemMoldura),
@@ -249,7 +247,7 @@ void DesenharAlbumPorSelecao(Album *al, const char *secaoAtiva, int paginaAtiva,
                        (Rectangle){ 0, 0, (float)moldura.width, (float)moldura.height },
                        rectMoldura, (Vector2){ 0, 0 }, 0.0f, WHITE);
 
-        /* Título do jogador */
+        // Título do jogador
         const char *tituloExibicao = ObterTituloAbreviado(filtradas[i]->titulo);
         int tamanhoTexto = MeasureText(tituloExibicao, 24);
         int textoX = posX + (larguraCard / 2) - (tamanhoTexto / 2);
@@ -258,7 +256,7 @@ void DesenharAlbumPorSelecao(Album *al, const char *secaoAtiva, int paginaAtiva,
         DrawText(tituloExibicao, textoX,     textoY, 24, BLACK);
         DrawText(tituloExibicao, textoX + 1, textoY, 24, BLACK);
 
-        /* Badge de repetidas */
+        // Badge de repetidas
         if (filtradas[i]->repetidas > 0) {
             char txtRepetidas[10];
             sprintf(txtRepetidas, "+%d", filtradas[i]->repetidas);
@@ -279,15 +277,15 @@ void DesenharAlbumPorSelecao(Album *al, const char *secaoAtiva, int paginaAtiva,
     }
 }
 
-/* ================================================================
- *  TELA: PACOTINHO (revelação de 7 figurinhas)
- * ================================================================ */
+    // =============================================
+    //  TELA: PACOTINHO (revelação de 7 figurinhas)
+    // =============================================
 
 void DesenharPacote(Album *al, int *indicesPacote, int cartaAtual,
                     bool cartaVirada, bool pacoteFinalizado,
                     int novasObtidas, Texture2D moldura) {
 
-    /* Painel central semi-transparente */
+    // Painel central semi-transparente
     int painelW = 700, painelH = 760;
     int painelX = (GetScreenWidth()  - painelW) / 2;
     int painelY = (GetScreenHeight() - painelH) / 2;
@@ -295,7 +293,7 @@ void DesenharPacote(Album *al, int *indicesPacote, int cartaAtual,
     DrawRectangleLinesEx((Rectangle){ (float)painelX, (float)painelY,
                                       (float)painelW,  (float)painelH }, 3, GOLD);
 
-    /* ---- Tela de RESUMO (quando os 7 já foram processados) ---- */
+    // ---- Tela de RESUMO (quando os 7 já foram processados) ----
     if (pacoteFinalizado) {
         const char *titulo = "PACOTE CONCLUIDO!";
         int tw = MeasureText(titulo, 42);
@@ -313,7 +311,7 @@ void DesenharPacote(Album *al, int *indicesPacote, int cartaAtual,
         int l2w = MeasureText(linha2, 26);
         DrawText(linha2, (GetScreenWidth() - l2w) / 2, painelY + 210, 26, GRAY);
 
-        /* Lista das 7 figurinhas do pacote */
+        // Lista das 7 figurinhas do pacote
         for (int i = 0; i < 7; i++) {
             Figurinha *f = &al->figurinhas[indicesPacote[i]];
             char item[80];
@@ -330,9 +328,9 @@ void DesenharPacote(Album *al, int *indicesPacote, int cartaAtual,
         return;
     }
 
-    /* ---- Tela de REVELAÇÃO da carta atual ---- */
+    // ---- Tela de REVELAÇÃO da carta atual ----
 
-    /* Título e contador */
+    // Título e contador
     const char *tituloPacote = "ABRINDO PACOTINHO";
     int tpw = MeasureText(tituloPacote, 36);
     DrawText(tituloPacote, (GetScreenWidth() - tpw) / 2, painelY + 30, 36, GOLD);
@@ -342,7 +340,7 @@ void DesenharPacote(Album *al, int *indicesPacote, int cartaAtual,
     int cw = MeasureText(contador, 26);
     DrawText(contador, (GetScreenWidth() - cw) / 2, painelY + 78, 26, LIGHTGRAY);
 
-    /* Área da carta */
+    // Área da carta
     int cardW = 260, cardH = 360;
     int cardX = (GetScreenWidth()  - cardW) / 2;
     int cardY = painelY + 130;
@@ -351,7 +349,7 @@ void DesenharPacote(Album *al, int *indicesPacote, int cartaAtual,
     Figurinha *f = &al->figurinhas[indicesPacote[cartaAtual]];
 
     if (!cartaVirada) {
-        /* ---- VERSO ---- */
+        // ---- VERSO ----
         if (al->texturaVerso.id > 0) {
             DrawTexturePro(al->texturaVerso,
                            (Rectangle){ 0, 0, (float)al->texturaVerso.width,
@@ -364,7 +362,7 @@ void DesenharPacote(Album *al, int *indicesPacote, int cartaAtual,
             DrawText("?", cardX + cardW / 2 - qw / 2, cardY + cardH / 2 - 45, 80, WHITE);
         }
 
-        /* Moldura sobre o verso */
+        // Moldura sobre o verso
         int mm = 8;
         DrawTexturePro(moldura,
                        (Rectangle){ 0, 0, (float)moldura.width, (float)moldura.height },
@@ -377,7 +375,7 @@ void DesenharPacote(Album *al, int *indicesPacote, int cartaAtual,
         DrawText(dica, (GetScreenWidth() - dw) / 2, cardY + cardH + 30, 22, YELLOW);
 
     } else {
-        /* ---- FRENTE ---- */
+        // ---- FRENTE ----
         if (f->textura.id > 0) {
             DrawTexturePro(f->textura,
                            (Rectangle){ 0, 0, (float)f->textura.width,
@@ -390,7 +388,7 @@ void DesenharPacote(Album *al, int *indicesPacote, int cartaAtual,
             DrawText(f->codigo, cardX + cardW / 2 - tw / 2, cardY + cardH / 2 - 20, 32, WHITE);
         }
 
-        /* Moldura sobre a frente */
+        // Moldura sobre a frente
         int mm = 8;
         DrawTexturePro(moldura,
                        (Rectangle){ 0, 0, (float)moldura.width, (float)moldura.height },
@@ -398,18 +396,18 @@ void DesenharPacote(Album *al, int *indicesPacote, int cartaAtual,
                                     (float)(cardW + mm * 2), (float)(cardH + mm * 2) },
                        (Vector2){ 0, 0 }, 0.0f, WHITE);
 
-        /* Nome do jogador */
+        // Nome do jogador
         const char *nomeExib = ObterTituloAbreviado(f->titulo);
         int nw = MeasureText(nomeExib, 26);
         DrawText(nomeExib, (GetScreenWidth() - nw) / 2, cardY + cardH + 18, 26, WHITE);
 
-        /* Tipo e grupo */
+        // Tipo e grupo
         char infoTipo[60];
         sprintf(infoTipo, "%s  |  Grupo %s", f->tipo, f->grupo[0] ? f->grupo : "FWC");
         int iw = MeasureText(infoTipo, 20);
         DrawText(infoTipo, (GetScreenWidth() - iw) / 2, cardY + cardH + 52, 20, LIGHTGRAY);
 
-        /* Aviso se já tinha */
+        // Aviso se já tinha
         if (f->colada) {
             const char *aviso = "Voce ja tem essa! Ira para as repetidas.";
             int aw = MeasureText(aviso, 20);
@@ -424,19 +422,19 @@ void DesenharPacote(Album *al, int *indicesPacote, int cartaAtual,
             DrawText(aviso, (GetScreenWidth() - aw) / 2, cardY + cardH + 85, 22, BLACK);
         }
 
-        /* Instruções de ação */
+        // Instruções de ação
         const char *acoes = "[S] Colar no album     [N] Guardar para troca";
         int aaw = MeasureText(acoes, 22);
         DrawText(acoes, (GetScreenWidth() - aaw) / 2, painelY + painelH - 55, 22, YELLOW);
     }
 }
 
-/* ================================================================
- *  TELA: ESTATÍSTICAS DE PREENCHIMENTO
- * ================================================================ */
+    // =====================================
+    //  TELA: ESTATÍSTICAS DE PREENCHIMENTO
+    // =====================================
 
 void DesenharEstatisticas(const Album *al) {
-    /* Nomes e letras de cada grupo para filtragem */
+    // Nomes e letras de cada grupo para filtragem
     const char *nomesGrupos[13] = {
         "ESPECIAL FWC", "GRUPO A", "GRUPO B", "GRUPO C", "GRUPO D",
         "GRUPO E",      "GRUPO F", "GRUPO G", "GRUPO H", "GRUPO I",
@@ -446,11 +444,11 @@ void DesenharEstatisticas(const Album *al) {
         "FWC", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"
     };
 
-    /* Contagem geral e por grupo */
+    // Contagem geral e por grupo
     int totalColadas   = 0;
     int totalRepetidas = 0;
-    int statTotal  [13]; /* total de figurinhas no grupo */
-    int statColadas[13]; /* quantas já coladas           */
+    int statTotal  [13]; // total de figurinhas no grupo
+    int statColadas[13]; // quantas já coladas           
 
     for (int g = 0; g < 13; g++) {
         statTotal[g]   = 0;
@@ -464,8 +462,7 @@ void DesenharEstatisticas(const Album *al) {
         for (int g = 0; g < 13; g++) {
             int pertence = 0;
             if (g == 0) {
-                /* Especial FWC: stickers cuja secao é "FIFA World Cup 2026"
-                   OU cujo grupo não é uma letra simples */
+                // Especial FWC: stickers cuja secao é "FIFA World Cup 2026"
                 pertence = (strcmp(al->figurinhas[i].secao, "FIFA World Cup 2026") == 0);
             } else {
                 pertence = (strcmp(al->figurinhas[i].grupo, letrasGrupos[g]) == 0);
@@ -479,7 +476,7 @@ void DesenharEstatisticas(const Album *al) {
         }
     }
 
-    /* ---- Layout ---- */
+    // ---- Layout ----
     int painelW = 1360, painelH = 950;
     int painelX = (GetScreenWidth()  - painelW) / 2;
     int painelY = (GetScreenHeight() - painelH) / 2;
@@ -488,12 +485,12 @@ void DesenharEstatisticas(const Album *al) {
     DrawRectangleLinesEx((Rectangle){ (float)painelX, (float)painelY,
                                       (float)painelW,  (float)painelH }, 3, GOLD);
 
-    /* Título */
+    // Título
     const char *titulo = "ESTATISTICAS DO ALBUM FIFA 2026";
     int tw = MeasureText(titulo, 38);
     DrawText(titulo, (GetScreenWidth() - tw) / 2, painelY + 28, 38, GOLD);
 
-    /* Barra de progresso geral */
+    // Barra de progresso geral
     float pctGeral = al->total > 0 ? (totalColadas * 100.0f) / al->total : 0.0f;
     char txtGeral[60];
     sprintf(txtGeral, "Total Geral:  %d / %d figurinhas  (%.1f%%)", totalColadas, al->total, pctGeral);
@@ -515,9 +512,9 @@ void DesenharEstatisticas(const Album *al) {
     int trw = MeasureText(txtRepetidas, 22);
     DrawText(txtRepetidas, (GetScreenWidth() - trw) / 2, painelY + 172, 22, SKYBLUE);
 
-    /* ---- Grade de grupos: 2 colunas ---- */
-    /* Coluna 1: grupos  0–6  (7 grupos) */
-    /* Coluna 2: grupos  7–12 (6 grupos) */
+    // ---- Grade de grupos: 2 colunas ----
+    // Coluna 1: grupos  0–6  (7 grupos)
+    // Coluna 2: grupos  7–12 (6 grupos)
     int col1X = painelX + 50;
     int col2X = painelX + painelW / 2 + 20;
     int inicioY = painelY + 215;
@@ -533,36 +530,36 @@ void DesenharEstatisticas(const Album *al) {
         float pct = statTotal[g] > 0 ? (statColadas[g] * 100.0f) / statTotal[g] : 0.0f;
         Color corBarra = pct >= 80 ? GREEN : pct >= 40 ? YELLOW : ORANGE;
 
-        /* Nome do grupo */
+        // Nome do grupo
         DrawText(nomesGrupos[g], colX, posY, 22, WHITE);
 
-        /* Fração X/Y */
+        // Fração X/Y
         char frac[20];
         sprintf(frac, "%d/%d", statColadas[g], statTotal[g]);
         int fw = MeasureText(frac, 20);
         DrawText(frac, colX + barW - fw, posY, 20, LIGHTGRAY);
 
-        /* Barra */
+        // Barra
         DrawRectangle(colX, posY + 28, barW, barH, DARKGRAY);
         DrawRectangle(colX, posY + 28, (int)(barW * pct / 100.0f), barH, corBarra);
         DrawRectangleLinesEx((Rectangle){ (float)colX, (float)(posY + 28),
                                           (float)barW,   (float)barH }, 1, GRAY);
 
-        /* Porcentagem */
+        // Porcentagem
         char pctTxt[10];
         sprintf(pctTxt, "%.0f%%", pct);
         DrawText(pctTxt, colX + barW + 8, posY + 28, 18, corBarra);
     }
 
-    /* Instrução de voltar */
+    // Instrução de voltar
     const char *instrucao = "[ESC] ou [BACKSPACE] para voltar";
     int iw = MeasureText(instrucao, 22);
     DrawText(instrucao, (GetScreenWidth() - iw) / 2, painelY + painelH - 48, 22, GRAY);
 }
 
-/* ================================================================
- *  TELA: TROCA COM JOGADOR VIRTUAL (extra 2)
- * ================================================================ */
+    // ===========================================
+    //  TELA: TROCA COM JOGADOR VIRTUAL (extra 2)
+    // ===========================================
 
 void DesenharTroca(const Album *al, int idxRepetida, int idxFaltante, bool ofertaValida) {
     int painelW = 1000, painelH = 700;
@@ -599,7 +596,7 @@ void DesenharTroca(const Album *al, int idxRepetida, int idxFaltante, bool ofert
     Rectangle rectEsq = { (float)cardEsqX, (float)cardY, (float)cardW, (float)cardH };
     Rectangle rectDir = { (float)cardDirX, (float)cardY, (float)cardW, (float)cardH };
 
-    /* ---- Card da esquerda: o que o jogador oferece ---- */
+    // ---- Card da esquerda: o que o jogador oferece ----
     DrawText("VOCE OFERECE", cardEsqX, cardY - 35, 22, ORANGE);
     if (oferta->textura.id > 0) {
         DrawTexturePro(oferta->textura,
@@ -621,7 +618,7 @@ void DesenharTroca(const Album *al, int idxRepetida, int idxFaltante, bool ofert
     int trw = MeasureText(txtRep, 18);
     DrawText(txtRep, cardEsqX + cardW / 2 - trw / 2, cardY + cardH + 38, 18, GRAY);
 
-    /* ---- Card da direita: o que o jogador recebe ---- */
+    // ---- Card da direita: o que o jogador recebe ----
     DrawText("VOCE RECEBE", cardDirX, cardY - 35, 22, GREEN);
     if (recebe->textura.id > 0) {
         DrawTexturePro(recebe->textura,
@@ -638,7 +635,7 @@ void DesenharTroca(const Album *al, int idxRepetida, int idxFaltante, bool ofert
     int nrw = MeasureText(nomeRecebe, 20);
     DrawText(nomeRecebe, cardDirX + cardW / 2 - nrw / 2, cardY + cardH + 12, 20, WHITE);
 
-    /* Seta central */
+    // Seta central
     const char *seta = "<=>";
     int sw = MeasureText(seta, 50);
     DrawText(seta, (GetScreenWidth() - sw) / 2, cardY + cardH / 2 - 25, 50, GOLD);
@@ -648,9 +645,9 @@ void DesenharTroca(const Album *al, int idxRepetida, int idxFaltante, bool ofert
     DrawText(instrucao, (GetScreenWidth() - iw2) / 2, painelY + painelH - 45, 20, GRAY);
 }
 
-/* ================================================================
- *  TELA: MINI-GAME ROLETA DA SORTE (extra 3)
- * ================================================================ */
+    // ===========================================
+    //  TELA: MINI-GAME ROLETA DA SORTE (extra 3)
+    // ===========================================
 
 void DesenharRoleta(Color cores[3], bool girando, bool venceu, bool jaGirou) {
     int painelW = 900, painelH = 600;
@@ -698,13 +695,13 @@ void DesenharRoleta(Color cores[3], bool girando, bool venceu, bool jaGirou) {
     DrawText(instrucao, (GetScreenWidth() - iw) / 2, painelY + painelH - 40, 20, GRAY);
 }
 
-/* ================================================================
- *  ENCERRAMENTO
- * ================================================================ */
+    // ==============
+    //  ENCERRAMENTO
+    // ==============
 
 void encerrar_jogo(Album *album, Texture2D frames[],
                    Texture2D iconeOn, Texture2D iconeOff, Music musica) {
-    /* Descarrega os frames do fundo animado */
+    // Descarrega os frames do fundo animado
     for (int i = 0; i < 30; i++) {
         UnloadTexture(frames[i]);
     }
@@ -712,11 +709,7 @@ void encerrar_jogo(Album *album, Texture2D frames[],
     UnloadTexture(iconeOn);
     UnloadTexture(iconeOff);
 
-    /* Descarrega as texturas das figurinhas e o verso (a memoria RAM dos
-       DADOS do album NAO e liberada aqui: o programa volta para o menu
-       de terminal e o usuario pode continuar cadastrando/consultando.
-       A liberacao final (liberar_album) so acontece quando o usuario
-       escolhe "Salvar e Sair" no menu principal do main()). */
+    // Descarrega as texturas das figurinhas e o verso 
     descarregar_texturas_album(album);
 
     UnloadMusicStream(musica);

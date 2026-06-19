@@ -11,19 +11,20 @@ void salvar_csv(Album *al, const char *nome_arquivo);
 void salvar_binario(Album *al, const char *nome_arquivo);
 int  carregar_binario(Album *al, const char *nome_arquivo);
 
-/* Caminhos dos arquivos de dados */
+    // Caminhos dos arquivos de dados
 #define ARQUIVO_BINARIO "assets/album2026.bin"
 #define ARQUIVO_CSV     "assets/figurinhas2026.csv"
 
-/* Protótipos das funções deste arquivo */
+    // Protótipos das funções deste arquivo
 static void exibir_menu_principal(void);
 static void exibir_submenu_cadastro(void);
 static void menu_cadastro(Album *al);
 static void executar_interface_grafica(Album *meu_album);
 
-/* ========================================================================
- *  MAIN  –  Menu de console (obrigatório pelo enunciado) + chamada da GUI
- * ======================================================================== */
+    // ========================================================================
+    //  MAIN  –  Menu de console (obrigatório pelo enunciado) + chamada da GUI
+    // ========================================================================
+
 int main(void) {
     srand((unsigned int) time(NULL));
 
@@ -471,13 +472,13 @@ static void executar_interface_grafica(Album *meu_album) {
         EndDrawing();
     }
 
-    // ==================================================================
-    //  Salva o progresso como rede de segurança ao fechar a janela      
-    //  (o álbum continua vivo na RAM para o menu de console)            
-    // ==================================================================
+        // ==================================================================
+        //  Salva o progresso como rede de segurança ao fechar a janela      
+        //  (o álbum continua vivo na RAM para o menu de console)            
+        // ==================================================================
     salvar_binario(meu_album, ARQUIVO_BINARIO);
 
-    // Descarrega ícones de UI (o resto fica por conta de encerrar_jogo)
+        // Descarrega ícones de UI (o resto fica por conta de encerrar_jogo)
     UnloadTexture(texturaMoldura);
     UnloadTexture(texturaPagina);
     UnloadTexture(logoInicio);
@@ -488,6 +489,6 @@ static void executar_interface_grafica(Album *meu_album) {
     UnloadTexture(iconeVoltar);
     UnloadTexture(iconeSair);
 
-    // Fecha janela/áudio e descarrega texturas do álbum (NÃO libera a RAM)
+        // Fecha janela/áudio e descarrega texturas do álbum (NÃO libera a RAM)
     encerrar_jogo(meu_album, animFrames, iconeSomLigado, iconeSomMutado, musica);
 }
